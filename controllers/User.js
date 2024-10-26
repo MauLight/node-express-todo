@@ -1,9 +1,38 @@
-const Users = require('../models/User')
+const User = require('../models/User')
+
+const getAllUsers = async (req, res, next) => {
+    try {
+        const allUsers = await User.findAll()
+        res.status(200).json(allUsers)
+    } catch (error) {
+        next(error)
+    }
+}
+
+const postUser = async (req, res, next) => {
+    try {
+        const { username, password } = req.body
+        const userWasAdded = await User.findOne({
+            where: {
+                username
+            }
+        })
+        if (userWasAdded) return next(new Error('taken'))
+
+        const isPasswordInvalid = /^(.{0,7}|[^0-9]*|[^A-Z]*|[^a-z]*|[a-zA-Z0-9]*)$/.test(password)
+        if (!username || isPasswordInvalid) return next(new Error('password'))
+
+        const newUser = await User.create({ username, password })
+        res.status(201).json(newUser)
+    } catch (error) {
+        next(error)
+    }
+}
 
 const getUserById = async (req, res, next) => {
     try {
         const id = req.params.id
-        const user = await Users.findOne({
+        const user = await User.findOne({
             where: {
                 id
             }
@@ -14,6 +43,23 @@ const getUserById = async (req, res, next) => {
     }
 }
 
+const deleteUserById = async (req, res, next) => {
+    try {
+        const id = req.params.id
+        const userToBeDeleted = await User.destroy({
+            where: {
+                id
+            }
+        })
+        res.status(200).json(userToBeDeleted)
+    } catch (error) {
+        next(error)
+    }
+}
+
 module.exports = {
-    getUserById
+    getAllUsers,
+    postUser,
+    getUserById,
+    deleteUserById
 }
