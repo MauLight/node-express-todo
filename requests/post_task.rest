@@ -1,0 +1,10 @@
+POST http://localhost:3001/api/tasks/new
+content-type: application/json
+
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlRlc3QgVXNlciIsImlkIjozLCJpYXQiOjE3Mjk5MzU0NzF9.geu9bDERNVshW5XMC8XQ56LB5B9K9wZzxl1y3V8BZkg",
+    "userId": 3,
+    "name": "Eating",
+    "description": "Put food in mouth",
+    "dueDate": "12/11"
+}

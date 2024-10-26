@@ -15,7 +15,7 @@ const Task = sequelize.define('Task', {
         defaultValue: DataTypes.NOW
     },
     dueDate: {
-        type: DataTypes.DATE,
+        type: DataTypes.STRING,
         allowNull: false
     }
 }, {

@@ -3,6 +3,8 @@ const { getAllTasks, postTask, updateTask, deleteTask } = require('../controller
 
 taskRouter.route('/')
     .post(getAllTasks)
+
+taskRouter.route('/new')
     .post(postTask)
 
 taskRouter.route('./:id')

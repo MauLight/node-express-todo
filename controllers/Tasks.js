@@ -45,12 +45,11 @@ const updateTask = async (req, res, next) => {
 
         if (!name || !description || !dueDate) throw new Error('fields')
 
-        const updatedTask = await Task.update({ name, description, dueDate }, {
+        await Task.update({ name, description, dueDate }, {
             where: {
                 id
             }
         })
-        console.log(updatedTask)
         return res.status(200).json({ name, description, dueDate })
     } catch (error) {
         next(error)

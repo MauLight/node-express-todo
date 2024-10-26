@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken')
-const bcrypt = require('bcrypt')
 const User = require('../models/User')
+const Task = require('../models/Task')
 const secret = process.env.SECRET
 
 const loginUser = async (req, res, next) => {
@@ -12,7 +12,14 @@ const loginUser = async (req, res, next) => {
     const currUser = await User.findOne({
         where: {
             username
-        }
+        },
+        include: [
+            {
+                model: Task,
+                as: 'tasks',
+                attributes: ['id', 'name', 'description', 'dueDate']
+            }
+        ]
     })
 
     const userForToken = {
@@ -20,7 +27,7 @@ const loginUser = async (req, res, next) => {
         id: currUser.id
     }
     const token = jwt.sign(userForToken, secret)
-    res.status(200).json({ id: currUser.id, username: currUser.username, token })
+    res.status(200).json({ id: currUser.id, username: currUser.username, tasks: currUser.tasks, token })
 }
 
 module.exports = {
