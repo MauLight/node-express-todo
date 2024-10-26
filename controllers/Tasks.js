@@ -1,16 +1,23 @@
+const jwt = require('jsonwebtoken')
+const secret = process.env.SECRET
 const Task = require('../models/Task')
 
-const getAllTasks = async (_req, res, next) => {
+const getAllTasks = async (req, res, next) => {
+    const decodedToken = jwt.verify(req.body.token, secret)
+    if (!decodedToken) return next(new Error('token'))
+
     try {
         const tasks = await Task.findAll()
         return res.status(200).json({ tasks })
     } catch (error) {
-        console.log(`Error: ${error}`)
         next(error)
     }
 }
 
 const postTask = async (req, res, next) => {
+    const decodedToken = jwt.verify(req.body.token, secret)
+    if (!decodedToken) return next(new Error('token'))
+
     try {
         const { userId, name, description, dueDate } = req.body
 
@@ -19,7 +26,7 @@ const postTask = async (req, res, next) => {
                 name, dueDate
             }
         })
-        if (alreadyPosted) return res.status(400).json({ message: 'Task was added already.' })
+        if (alreadyPosted) return next(new Error('already posted'))
 
         const newTask = await Task.create({ userId, name, description, dueDate })
         res.status(201).json(newTask)
@@ -29,6 +36,9 @@ const postTask = async (req, res, next) => {
 }
 
 const updateTask = async (req, res, next) => {
+    const decodedToken = jwt.verify(req.body.token, secret)
+    if (!decodedToken) return next(new Error('token'))
+
     try {
         const id = req.params.id
         const { name, description, dueDate } = req.body
@@ -47,11 +57,12 @@ const updateTask = async (req, res, next) => {
     }
 }
 
-const deleteTask = async (req, res) => {
+const deleteTask = async (req, res, next) => {
+    const decodedToken = jwt.verify(req.body.token, secret)
+    if (!decodedToken) return next(new Error('token'))
+
     try {
         const id = req.params.id
-        if (!id) return res.status(400).json({ message: 'User must provide a task id.' })
-
         const deletedTask = await Task.destroy({
             where: {
                 id

@@ -29,6 +29,11 @@ const User = sequelize.define('User', {
             }
         }
     },
+    instanceMethods: {
+        validPassword: (password) => {
+            return bcrypt.compare(password, this.password)
+        }
+    },
     defaultScope: {
         attributes: {
             exclude: ['password']
