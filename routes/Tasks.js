@@ -1,5 +1,5 @@
 const taskRouter = require('express').Router()
-const { getAllTasks } = require('../apiCalls')
+const { getAllTasks } = require('../controllers/Tasks')
 
 taskRouter.route('/')
     .get(getAllTasks)
