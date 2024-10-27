@@ -17,6 +17,10 @@ const Task = sequelize.define('Task', {
     dueDate: {
         type: DataTypes.STRING,
         allowNull: false
+    },
+    priority: {
+        type: DataTypes.NUMBER,
+        defaultValue: 0
     }
 }, {
     tableName: 'tasks'

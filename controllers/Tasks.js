@@ -42,7 +42,7 @@ const postTask = async (req, res, next) => {
     if (!decodedToken) return next(new Error('token'))
 
     try {
-        const { userId, name, description, dueDate } = req.body
+        const { userId, name, description, dueDate, priority } = req.body
 
         const alreadyPosted = await Task.findOne({
             where: {
@@ -51,7 +51,7 @@ const postTask = async (req, res, next) => {
         })
         if (alreadyPosted) return next(new Error('already posted'))
 
-        const newTask = await Task.create({ userId, name, description, dueDate })
+        const newTask = await Task.create({ userId, name, description, dueDate, priority })
         res.status(201).json(newTask)
     } catch (error) {
         next(error)
@@ -65,16 +65,16 @@ const updateTask = async (req, res, next) => {
 
     try {
         const id = req.params.id
-        const { name, description, dueDate } = req.body
+        const { name, description, dueDate, priority } = req.body
 
         if (!name || !description || !dueDate) throw new Error('fields')
 
-        await Task.update({ name, description, dueDate }, {
+        await Task.update({ name, description, dueDate, priority }, {
             where: {
                 id
             }
         })
-        return res.status(200).json({ name, description, dueDate })
+        return res.status(200).json({ name, description, dueDate, priority })
     } catch (error) {
         next(error)
     }
