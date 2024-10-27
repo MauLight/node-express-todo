@@ -14,6 +14,25 @@ const getAllTasks = async (req, res, next) => {
     }
 }
 
+const getTasksByUserId = async (req, res, next) => {
+    const decodedToken = jwt.verify(req.body.token, secret)
+    if (!decodedToken) return next(new Error('token'))
+
+    const id = req.params.id
+    if (!id) return next(new Error('fields'))
+
+    try {
+        const tasks = await Task.findAll({
+            where: {
+                userId: id
+            }
+        })
+        res.status(200).json(tasks)
+    } catch (error) {
+        next(error)
+    }
+}
+
 const postTask = async (req, res, next) => {
     const decodedToken = jwt.verify(req.body.token, secret)
     if (!decodedToken) return next(new Error('token'))
@@ -57,8 +76,6 @@ const updateTask = async (req, res, next) => {
 }
 
 const deleteTask = async (req, res, next) => {
-    const decodedToken = jwt.verify(req.body.token, secret)
-    if (!decodedToken) return next(new Error('token'))
 
     try {
         const id = req.params.id
@@ -75,6 +92,7 @@ const deleteTask = async (req, res, next) => {
 
 module.exports = {
     getAllTasks,
+    getTasksByUserId,
     postTask,
     updateTask,
     deleteTask

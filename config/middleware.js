@@ -8,6 +8,7 @@ const requestLogger = (req, _res, next) => {
 
 const errorHandler = (error, _req, res, _next) => {
     console.error(error.message)
+    if (error.message === 'taken') return res.status(401).json({ message: 'Username is already in use.' })
     if (error.message === 'token') return res.status(401).json({ message: 'Unauthorized access, bad credentials.' })
     if (error.message === 'password') return res.status(400).json({ message: 'Username or password are incorrect.' })
     if (error.message === 'fields') return res.status(400).json({ message: 'One or more fields are missing.' })
