@@ -19,7 +19,7 @@ const Task = sequelize.define('Task', {
         allowNull: false
     },
     priority: {
-        type: DataTypes.NUMBER,
+        type: DataTypes.STRING,
         defaultValue: 0
     }
 }, {
