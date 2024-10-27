@@ -3,6 +3,7 @@ const secret = process.env.SECRET
 const Task = require('../models/Task')
 
 const getAllTasks = async (req, res, next) => {
+    //* Verify user has access to resource.
     const decodedToken = jwt.verify(req.body.token, secret)
     if (!decodedToken) return next(new Error('token'))
 
@@ -15,6 +16,7 @@ const getAllTasks = async (req, res, next) => {
 }
 
 const getTasksByUserId = async (req, res, next) => {
+    //* Verify user has access to resource.
     const decodedToken = jwt.verify(req.body.token, secret)
     if (!decodedToken) return next(new Error('token'))
 
@@ -22,6 +24,7 @@ const getTasksByUserId = async (req, res, next) => {
     if (!id) return next(new Error('fields'))
 
     try {
+        //* Find all tasks from current user.
         const tasks = await Task.findAll({
             where: {
                 userId: id
@@ -34,6 +37,7 @@ const getTasksByUserId = async (req, res, next) => {
 }
 
 const postTask = async (req, res, next) => {
+    //* Verify user has access to resource.
     const decodedToken = jwt.verify(req.body.token, secret)
     if (!decodedToken) return next(new Error('token'))
 
@@ -55,6 +59,7 @@ const postTask = async (req, res, next) => {
 }
 
 const updateTask = async (req, res, next) => {
+    //* Verify user has access to resource.
     const decodedToken = jwt.verify(req.body.token, secret)
     if (!decodedToken) return next(new Error('token'))
 
@@ -79,6 +84,7 @@ const deleteTask = async (req, res, next) => {
 
     try {
         const id = req.params.id
+        //* Erase task by id
         const deletedTask = await Task.destroy({
             where: {
                 id

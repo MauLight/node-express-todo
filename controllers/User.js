@@ -12,6 +12,7 @@ const getAllUsers = async (req, res, next) => {
 const postUser = async (req, res, next) => {
     try {
         const { username, password } = req.body
+        //* Check if username was already added (unique).
         const userWasAdded = await User.findOne({
             where: {
                 username
@@ -19,6 +20,7 @@ const postUser = async (req, res, next) => {
         })
         if (userWasAdded) return next(new Error('taken'))
 
+        //* Check if password has at least one uppercase, one number, and one special character.    
         const isPasswordInvalid = /^(.{0,7}|[^0-9]*|[^A-Z]*|[^a-z]*|[a-zA-Z0-9]*)$/.test(password)
         if (!username || isPasswordInvalid) return next(new Error('password'))
 
@@ -46,6 +48,7 @@ const getUserById = async (req, res, next) => {
 const deleteUserById = async (req, res, next) => {
     try {
         const id = req.params.id
+        //* Delete user by id.
         const userToBeDeleted = await User.destroy({
             where: {
                 id

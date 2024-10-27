@@ -1,5 +1,6 @@
 const { Sequelize } = require('sequelize')
 
+//* Database configuration values
 const database = 'todo_db'
 const username = 'todo_user'
 const password = 'password'
