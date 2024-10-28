@@ -2,13 +2,13 @@ const taskRouter = require('express').Router()
 const { getAllTasks, getTasksByUserId, postTask, updateTask, deleteTask } = require('../controllers/Tasks')
 
 taskRouter.route('/')
-    .post(getAllTasks)
+    .get(getAllTasks)
 
-taskRouter.route('/new')
+taskRouter.route('/')
     .post(postTask)
 
 taskRouter.route('/:id')
-    .post(getTasksByUserId)
+    .get(getTasksByUserId)
     .put(updateTask)
     .delete(deleteTask)
 

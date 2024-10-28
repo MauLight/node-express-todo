@@ -1,8 +1,20 @@
+const jwt = require('jsonwebtoken')
+const secret = process.env.SECRET
+
 const requestLogger = (req, _res, next) => {
     console.log('Method: ', req.method)
     console.log('Path: ', req.path)
     console.log('Body: ', req.body)
     console.log('---')
+    next()
+}
+
+const checkCredentials = (req, res, next) => {
+    const token = req.headers.authorization && req.headers.authorization.split(' ')[1]
+    if (!token) return next(new Error('token'))
+
+    const decodedToken = jwt.verify(token, secret)
+    if (!decodedToken) return next(new Error('token'))
     next()
 }
 
@@ -24,6 +36,7 @@ const unknownEndpoint = (req, res) => {
 
 module.exports = {
     requestLogger,
+    checkCredentials,
     errorHandler,
     unknownEndpoint
 }

@@ -12,7 +12,8 @@ const cors = require('cors')
 const {
     requestLogger,
     errorHandler,
-    unknownEndpoint
+    unknownEndpoint,
+    checkCredentials
 } = require('./config/middleware')
 
 const loginRouter = require('./routes/Login')
@@ -29,6 +30,8 @@ app.use(requestLogger)
 app.get('/', (_req, res) => res.send('Hello World'))
 app.use('/api/login', loginRouter)
 app.use('/api/user', userRouter)
+
+app.use(checkCredentials)
 app.use('/api/tasks', taskRouter)
 
 app.use(unknownEndpoint)

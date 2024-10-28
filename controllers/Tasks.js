@@ -3,9 +3,6 @@ const secret = process.env.SECRET
 const Task = require('../models/Task')
 
 const getAllTasks = async (req, res, next) => {
-    //* Verify user has access to resource.
-    const decodedToken = jwt.verify(req.body.token, secret)
-    if (!decodedToken) return next(new Error('token'))
 
     try {
         const tasks = await Task.findAll()
@@ -16,9 +13,6 @@ const getAllTasks = async (req, res, next) => {
 }
 
 const getTasksByUserId = async (req, res, next) => {
-    //* Verify user has access to resource.
-    const decodedToken = jwt.verify(req.body.token, secret)
-    if (!decodedToken) return next(new Error('token'))
 
     const id = req.params.id
     if (!id) return next(new Error('fields'))
@@ -37,9 +31,6 @@ const getTasksByUserId = async (req, res, next) => {
 }
 
 const postTask = async (req, res, next) => {
-    //* Verify user has access to resource.
-    const decodedToken = jwt.verify(req.body.token, secret)
-    if (!decodedToken) return next(new Error('token'))
 
     try {
         const { userId, name, description, dueDate, priority } = req.body
@@ -59,9 +50,6 @@ const postTask = async (req, res, next) => {
 }
 
 const updateTask = async (req, res, next) => {
-    //* Verify user has access to resource.
-    const decodedToken = jwt.verify(req.body.token, secret)
-    if (!decodedToken) return next(new Error('token'))
 
     try {
         const id = req.params.id
