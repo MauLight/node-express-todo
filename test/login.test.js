@@ -1,7 +1,7 @@
 const request = require('supertest')
 const app = require('../app')
 
-describe('login route', () => {
+describe('Login route', () => {
     test('return token for validation', done => {
         request(app)
             .post('/api/login')

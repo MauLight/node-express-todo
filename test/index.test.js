@@ -1,7 +1,7 @@
 const request = require('supertest')
 const app = require('../app')
 
-test('index route works', done => {
+test('index route', done => {
     request(app)
         .get('/')
         .expect("Content-Type", /json/)

@@ -4,8 +4,8 @@ const { v4: uuidv4 } = require('uuid')
 
 const id = uuidv4()
 
-describe('create user 201', () => {
-    test('return token for validation', done => {
+describe('User routes', () => {
+    test('create user returns 201', done => {
         request(app)
             .post('/api/user')
             .send({ username: `TestUser${id}`, password: 'Password1234.' })
@@ -55,5 +55,4 @@ describe('create user 201', () => {
             .delete('/api/user/x')
             .expect(404, done)
     })
-
 })
