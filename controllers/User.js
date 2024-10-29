@@ -39,7 +39,11 @@ const getUserById = async (req, res, next) => {
                 id
             }
         })
-        return res.status(200).json(user)
+        if (user) {
+            return res.status(200).json(user)
+        } else {
+            next()
+        }
     } catch (error) {
         next(error)
     }
@@ -48,13 +52,19 @@ const getUserById = async (req, res, next) => {
 const deleteUserById = async (req, res, next) => {
     try {
         const id = req.params.id
-        //* Delete user by id.
-        const userToBeDeleted = await User.destroy({
+
+        const user = await User.findOne({
             where: {
                 id
             }
         })
-        res.status(200).json(userToBeDeleted)
+        if (user) {
+            const userToBeDeleted = await user.destroy()
+            res.status(200).json(userToBeDeleted)
+        } else {
+            next()
+        }
+
     } catch (error) {
         next(error)
     }

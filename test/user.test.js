@@ -28,4 +28,32 @@ describe('create user 201', () => {
             .send({ username: 'TestUser', password: 'wrongPassword1234.' })
             .expect(401, done)
     })
+
+    test('return 200 when get user, id is valid', done => {
+        request(app)
+            .get('/api/user/1')
+            .expect("Content-Type", /json/)
+            .expect(200, done)
+    })
+
+    test('return 404 when get user, id is not valid', done => {
+        request(app)
+            .get('/api/user/x')
+            .expect(404, done)
+    })
+
+    //* Will only work if user with id 8 exists.
+    test('return 200 when delete user, id is valid', done => {
+        request(app)
+            .delete('/api/user/8')
+            .expect("Content-Type", /json/)
+            .expect(200, done)
+    })
+
+    test('return 404 when delete user, id is not valid', done => {
+        request(app)
+            .delete('/api/user/x')
+            .expect(404, done)
+    })
+
 })
