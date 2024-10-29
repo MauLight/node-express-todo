@@ -1,6 +1,20 @@
+const portfinder = require('portfinder')
 const app = require('./app')
 const { sequelize } = require('./connection')
-const port = process.env.PORT
+
+let serverPort
+const getPort = portfinder.getPortPromise({
+    port: 3000,
+    stopPort: 8000
+})
+    .then(port => {
+        serverPort = port
+    })
+    .catch(error => {
+        console.error(error)
+    })
+
+const port = process.env.PORT || serverPort
 
 sequelize
     .authenticate()

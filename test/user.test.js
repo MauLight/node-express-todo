@@ -5,6 +5,33 @@ const { v4: uuidv4 } = require('uuid')
 const id = uuidv4()
 
 describe('User routes', () => {
+    let userId
+
+    beforeAll(done => {
+        request(app)
+            .get('/api/user')
+            .expect(200)
+            .end((err, res) => {
+                if (err) return done(err)
+                const users = res.body
+                userId = users[users.length - 1].id
+                console.log(users)
+                const testUser = users.find(user => user.username === 'TestUser')
+                if (!testUser) {
+                    request(app)
+                        .post('/api/user')
+                        .send({ username: 'TestUser', password: 'Password1234.' })
+                        .expect("Content-Type", /json/)
+                        .expect(201)
+                        .end((err, _res) => {
+                            if (err) return done(err)
+                            done()
+                        })
+                }
+                done()
+            })
+    })
+
     test('create user returns 201', done => {
         request(app)
             .post('/api/user')
@@ -42,10 +69,9 @@ describe('User routes', () => {
             .expect(404, done)
     })
 
-    //* Will only work if user with id 8 exists.
     test('return 200 when delete user, id is valid', done => {
         request(app)
-            .delete('/api/user/8')
+            .delete(`/api/user/${userId}`)
             .expect("Content-Type", /json/)
             .expect(200, done)
     })

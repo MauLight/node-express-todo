@@ -26,9 +26,7 @@ describe('Tasks routes', () => {
                     .end((err, res) => {
                         if (err) return done(err)
                         const tasks = res.body
-                        console.log(tasks, 'These are the TASKS')
-                        idToDelete = tasks[tasks.length - 2].id
-                        console.log(idToDelete, 'This is the IDTODELETE')
+                        idToDelete = tasks[tasks.length - 1].id
                         done()
                     })
             })
