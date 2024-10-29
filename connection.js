@@ -1,8 +1,8 @@
 const { Sequelize } = require('sequelize')
 
 //* Database configuration values
-const database = 'todo_db'
-const username = 'todo_user'
+const database = process.env.DATABASE
+const username = process.env.DB_USERNAME
 const password = process.env.DB_PASSWORD
 const host = process.env.HOSTNAME
 
