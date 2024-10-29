@@ -17,6 +17,8 @@
 12. Create a new **.env** file in the project's root using the **.env.example** file as template.
 13. Run **npm run dev**
 
+14. To execute route tests inside the requests folder, please install [REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) extension for VsCode.
+
 **Lista de Tareas con Node Express**
 
 1. Asegúrate de tener postgres instalado; abre la terminal y ejecuta el comando **postgres --version**
@@ -35,3 +37,4 @@
 11. Ejecuta **npm i**
 12. Crea un nuevo archivo **.env** en la raíz del proyecto usando el archivo **.env.example** como plantilla.
 13. Ejecuta **npm run dev**
+14. Para ejecutar los tests en la carpeta requests, por favor instalar [REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) extension para VsCode.
