@@ -1,5 +1,3 @@
-const jwt = require('jsonwebtoken')
-const secret = process.env.SECRET
 const Task = require('../models/Task')
 
 const getAllTasks = async (req, res, next) => {

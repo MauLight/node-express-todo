@@ -16,22 +16,15 @@ const User = sequelize.define('User', {
     hooks: {
         beforeCreate: async (user) => {
             if (user.password) {
-                const salt = 10
-                const passwordHash = await bcrypt.hash(user.password, salt)
-                user.password = passwordHash
+                const salt = await bcrypt.genSalt(10)
+                user.password = await bcrypt.hash(user.password, salt)
             }
         },
         beforeUpdate: async (user) => {
             if (user.password) {
-                const salt = 10
-                const passwordHash = await bcrypt.hash(user.password, salt)
-                user.password = passwordHash
+                const salt = await bcrypt.genSalt(10)
+                user.password = await bcrypt.hash(user.password, salt)
             }
-        }
-    },
-    instanceMethods: {
-        validPassword: (password) => {
-            return bcrypt.compare(password, this.password)
         }
     },
     defaultScope: {
@@ -39,7 +32,17 @@ const User = sequelize.define('User', {
             exclude: ['password']
         }
     },
+    scopes: {
+        withPassword: {
+            attributes: { include: ['password'] }
+        }
+    },
     tableName: 'users'
 })
+
+User.prototype.validatePassword = async function (password) {
+    const isValid = await bcrypt.compare(password, this.password)
+    return isValid
+}
 
 module.exports = User
