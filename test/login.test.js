@@ -12,14 +12,14 @@ describe('login route', () => {
                 if (!res.body.token) throw new Error('token')
             })
             .end(done)
-    });
+    })
 
     test('return 401 with invalid credentials', done => {
         request(app)
             .post('/api/login')
             .send({ username: 'wrongUser', password: 'wrongPassword1234.' })
             .expect(401, done)
-    });
+    })
 
     test('return 401 wrong password', done => {
         request(app)
